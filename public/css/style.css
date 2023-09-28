@@ -1,0 +1,34 @@
+body{
+    background-color: black;
+}
+/* เลือกหลังคาตารางที่มีคลาส "card" */
+.card {
+    border-color: #ffc107; /* สีเส้นขอบ */
+    background-color: transparent; /* สีพื้นหลัง */
+}
+
+/* เลือกข้อความหัวข้อของการ์ดที่มีคลาส "card-title" และ "text-warning" */
+.card-title.text-warning {
+    color: #ffc107; /* สีข้อความหัวข้อ */
+}
+
+/* เลือกข้อความแนวนอนในการ์ดที่มีคลาส "card-title" และ "text-warning" */
+.card-title.text-warning p {
+    color: #ffc107; /* สีข้อความแนวนอน */
+}
+
+/* เลือกลิงก์ที่มีคลาส "btn" และ "btn-outline-warning" */
+.btn.btn-outline-warning {
+    border-color: #ffc107; /* สีขอบของลิงก์ */
+    color: #ffc107; /* สีข้อความของลิงก์ */
+}
+
+/* เลือกลิงก์ที่มีคลาส "btn" และ "btn-outline-warning" เมื่อถูกเอาช้าง */
+.btn.btn-outline-warning:hover {
+    background-color: #ffc107; /* สีพื้นหลังเมื่อเมาส์ไปวางบนลิงก์ */
+    color: #fff; /* สีข้อความเมื่อเมาส์ไปวางบนลิงก์ */
+}
+
+.red-text {
+    color: red;
+}
