@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -13,30 +12,24 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
 
-
 </head>
 
 <body style="background-color: black">
     <nav class="navbar navbar-dark bg-black">
         <div class="container-fluid">
             <a class="navbar-brand">
-                <img src="img/pngtree-clink-glasses-to-celebrate-beer-toasts-png-image_5768200.png.jpeg" alt="Logo"
-                    width="30" height="24" class="d-inline-block align-text-top">
+
                 <font style="font-size:30px;" color="darkyellow">Alcoholism</font>
             </a>
-            <a class="nav-link" href="/home2">
+            <a class="nav-link" href="{{ route('admin.home') }}">
                 <font color="darkyellow">Home</font>
             </a>
 
             <ul class="navbar-nav ms-auto">
-
                 <!-- Authentication Links -->
-
                 @guest
-
                     @if (Route::has('login'))
                         <li class="nav-item">
-
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
@@ -69,8 +62,6 @@
             </ul>
         </div>
     </nav>
-
-    <br>
     <h1>
         <center>
             <font color="darkyellow">Alcoholism</font>
@@ -128,18 +119,26 @@
 
                                     <br>
                                     <!-- ส่งข้อมูลโต๊ะที่ถูกเลือกไปยังหน้า "Booking" -->
-                                    <input type="hidden" name="selectedTables" id="selected-tables-input">
-                                    <input id="submit-button" class="btn btn-outline-warning" type="submit"
-                                        value="Submit" onclick="updateSelectedTablesInput()">
+
                                 </form>
                             </div>
-                            <br> <br><br>
-                            <h6>
-                                <font color="darkyello">มัดจำโต๊ะละ 300 บาท<br>** ทางร้านขอแจ้งให้ทราบว่า
-                                    โต๊ะใหญ่สามารถนั่งได้สูงสุด 8 คน ส่วนโต๊ะเล็กนั่งได้สูงสุด 5 คน **
-                                </font>
-                            </h6>
-
+                            <div class="row">
+                                <div class="col">
+                                    <form method="GET" action="{{ route('deleteAll') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Delete All</button>
+                                </form>
+                                </div>
+                                <div class="col">
+                                    <form method="GET" action="{{ route('refreshAll') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Refresh All</button>
+                                </form>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary" onclick="lockTables()">Lock</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </center>
@@ -147,52 +146,35 @@
         </main>
     </section>
     <script>
-
-        var selectedTables = [];
-
-        function toggleTable(tableId) {
-            var index = selectedTables.indexOf(tableId);
-
-            if (index === -1) {
-                if (selectedTables.length < 3) {
-                    selectedTables.push(tableId);
-                } else {
-                    alert("คุณสามารถเลือกโต๊ะได้สูงสุด 3 โต๊ะ");
-                    location.reload();
-
-                }
-            } else {
+    function toggleTable(tableId) {
+        const button = document.querySelector(`[data-table-id="${tableId}"]`);
+        if (button.classList.contains('active')) {
+            console.log(`Table ${tableId} is active.`);
+            // Remove table from the selection
+            const index = selectedTables.indexOf(tableId);
+            if (index > -1) {
                 selectedTables.splice(index, 1);
             }
-            updateSelectedTables();
+        } else {
+            console.log(`Table ${tableId} is not active.`);
+            // Add table to the selection
+            selectedTables.push(tableId);
         }
-
-        function updateSelectedTables() {
-            var selectedTablesElement = document.getElementById("selected-tables");
-            selectedTablesElement.textContent = "Table Number: " + selectedTables.join(", ");
-        }
-
-        function updateSelectedTablesInput() {
-            var selectedTablesInput = document.getElementById("selected-tables-input");
-            selectedTablesInput.value = selectedTables.join(",");
-        }
-    </script>
-    
-
-    <br><br><br>
-
-    <div class="card border-warning bg-transparent">
-        <br>
-        <h5 class="card-header text-warning">About us</h5>
-        <div class="card-body">
-            <h5 class="card-title text-warning">
-                เว็บจองโต๊ะสำหรับบุคคลที่ต้องการให้แอลกอฮอล์ไหลเข้าสู่ร่างกาย </h5>
-            <p class="card-title text-warning">Website for booking tables for individuals who want alcohol to flow into their bodies.
-            </p>
-        </div>
-    </div>
+    }
+    <button type="button"
+    style="width:115px; height:50px; font-size:15px; margin: 5px 2px;"
+    class="btn btn-outline-warning"
+    data-table-id="{{ $table->id }}"
+    {{ $table->status == 1 ? 'disabled' : '' }}
+    onclick="toggleTable({{ $table->id }})">{{ $table->id }}</button>
+    function lockTables() {
+        console.log('Lock button clicked');
+        // ... rest of the code
+    }
+</script>
 
 
 </body>
+
 
 </html>

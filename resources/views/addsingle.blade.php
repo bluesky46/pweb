@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
+    <title>Document</title>
 </head>
 
 <body style="background-color: black">
@@ -21,19 +21,15 @@
                     width="30" height="24" class="d-inline-block align-text-top">
                 <font style="font-size:30px;" color="darkyellow">Alcoholism</font>
             </a>
-            <a class="nav-link" href="/home2">
+            <a class="nav-link" href="admin/home">
                 <font color="darkyellow">Home</font>
             </a>
 
             <ul class="navbar-nav ms-auto">
-
                 <!-- Authentication Links -->
-
                 @guest
-
                     @if (Route::has('login'))
                         <li class="nav-item">
-
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
@@ -66,45 +62,57 @@
             </ul>
         </div>
     </nav>
-
-    <img src="{{ asset('img/AL.jpg') }}" class="d-block w-100">
-    <br><br><br>
-
-
     <div class="row justify-content-center">
         <div class="col-sm-6 mb-3 mb-sm-0">
             <div class="card">
-                <font color="darkyellow">
-                    <div class="card-body">
-                        <h5 class="card-title">Menu Update!</h5>
-                        {{-- <font color="darkyellow"> --}}
-                        <table>
+                <div class="card-header">
+                    Group
+                </div>
+                <section>
+                    <form method="POST" action="{{ url('/addsingle/insert') }}">
+                        @csrf
+                        <div class="card-body">
+                            <h5 class="card-title">Singer Update!</h5>
+                            เพิ่มชื่อวง : <input type="text" name="single_name" id='single_name'> <br>
+                            กำหนดวัน : <input type="text" name="date" id='date'><br><br>
+                            <button type="submit" class="btn btn-warning">Submit</button>
+                        </div>
+                    </form>
+                </section>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <table class="table ">
+
                             <thead>
                                 <tr>
-                                    <th>Menu</th>
-                                    <th>Price</th>
+                                    <th scope="col">วงดนตรี</th>
+                                    <th scope="col">วัน</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pro as $menu)
+                                @foreach ($sing as $s)
                                     <tr>
-                                        <td>{{ $menu->name_menu }}</td>
-                                        <td>{{ $menu->price }}</td>
+                                        <td>{{ $s->name }}</td>
+                                        <td>{{ $s->date }}</td>
+                                        <td>
+                                            <form method="POST" action="{{ url('/addsingle/delete/'.$s->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">ลบ</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
-                    </div>
-                </font>
+                    </blockquote>
+                </div>
+
             </div>
         </div>
     </div>
-    <br><br><br>
-    
-
-
-
-
 
 
 </body>

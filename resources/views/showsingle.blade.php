@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -26,14 +27,10 @@
             </a>
 
             <ul class="navbar-nav ms-auto">
-
                 <!-- Authentication Links -->
-
                 @guest
-
                     @if (Route::has('login'))
                         <li class="nav-item">
-
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
@@ -66,43 +63,45 @@
             </ul>
         </div>
     </nav>
-
-    <img src="{{ asset('img/AL.jpg') }}" class="d-block w-100">
-    <br><br><br>
-
+    <h1> <br>
+        <center>
+            <font color="darkyellow">วงดนตรี</font>
+        </center>
+    </h1>
+    <br>  <br>
 
     <div class="row justify-content-center">
-        <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="col-sm-8 mb-3 mb-sm-0">
             <div class="card">
-                <font color="darkyellow">
-                    <div class="card-body">
-                        <h5 class="card-title">Menu Update!</h5>
-                        {{-- <font color="darkyellow"> --}}
-                        <table>
+                <div class="card-header">
+                    Group
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <table class="table ">
+
                             <thead>
                                 <tr>
-                                    <th>Menu</th>
-                                    <th>Price</th>
+                                    <th scope="col">วงดนตรี</th>
+                                    <th scope="col">วัน</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pro as $menu)
+                                @foreach ($sing as $s)
                                     <tr>
-                                        <td>{{ $menu->name_menu }}</td>
-                                        <td>{{ $menu->price }}</td>
+                                        <td>{{ $s->name }}</td>
+                                        <td>{{ $s->date }}</td>
+                                        </th>
                                     </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
-                    </div>
-                </font>
+                    </blockquote>
+                </div>
             </div>
         </div>
     </div>
-    <br><br><br>
-    
-
-
 
 
 

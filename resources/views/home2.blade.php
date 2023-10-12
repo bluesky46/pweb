@@ -8,11 +8,13 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
 
+</head>
+
+<body style="background-color: black">
     <nav class="navbar navbar-dark bg-black">
         <div class="container-fluid">
             <a class="navbar-brand">
@@ -20,15 +22,51 @@
                     width="30" height="24" class="d-inline-block align-text-top">
                 <font style="font-size:30px;" color="darkyellow">Alcoholism</font>
             </a>
-
             <a class="nav-link" href="/home2">
                 <font color="darkyellow">Home</font>
             </a>
+
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Authentication Links -->
+
+                @guest
+
+                    @if (Route::has('login'))
+
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
         </div>
     </nav>
-</head>
-
-<body>
     <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="1500">
@@ -75,14 +113,23 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col-sm-4">
                 <div class="card border-warning bg-transparent">
                     <div class="card-body">
-                        <h5 class="card-title text-warning">Promotion</h5>
-                        <p class="card-title text-warning">สามารถดูโปรโมชั่น และรายการสินค้าในร้านได้ที่นี่</p>
+                        <h5 class="card-title text-warning">Menu</h5>
+                        <p class="card-title text-warning">สามารถดูรายการสินค้าในร้านได้ที่นี่</p>
 
                         <a href="/pro" class="btn btn-outline-warning">Let's go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-warning bg-transparent">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">Singer</h5>
+                        <p class="card-title text-warning">สามารถดูวงดนตรีที่ขึ้นเล่นแต่ละวันได้</p>
+
+                        <a href="/showsingle" class="btn btn-outline-warning">Let's go</a>
                     </div>
                 </div>
             </div>
@@ -110,11 +157,8 @@
         <h5 class="card-header text-warning">About us</h5>
         <div class="card-body">
             <h5 class="card-title text-warning">
-                เว็บสำหรับการจองโต๊ะเหมาะสำหรับบุคคลที่ต้องการให้แอลกอฮอล์ไหลเข้าสู่ร่างกาย </h5>
-            <p class="card-title text-warning">กะจะกินเหล้าให้ลืมเธอ แต่ดันลืมทุกอย่างยกเว้นเธอ <br>
-                ชีวิตเราเกิดมาเพื่อเบียร์ ไม่ใช่เพื่อเธอ <br>
-                อกหักไม่ตาย โปรเจคไม่เสร็จต่างหากถึงตาย
-
+                เว็บจองโต๊ะสำหรับบุคคลที่ต้องการให้แอลกอฮอล์ไหลเข้าสู่ร่างกาย </h5>
+            <p class="card-title text-warning">Website for booking tables for individuals who want alcohol to flow into their bodies.
             </p>
         </div>
     </div>

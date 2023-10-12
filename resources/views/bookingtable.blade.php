@@ -12,20 +12,61 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
 
-    <nav class="navbar navbar-dark bg-black">
-        <div class="container-fluid">
-            <a class="navbar-brand">
-                <a class="nav-link" href="/home2">
-                    <font style="font-size:22px;" color="darkyellow">Home</font>
-                    <img src="img/pngtree-clink-glasses-to-celebrate-beer-toasts-png-image_5768200.png.jpeg"
-                        alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                </a>
-            </a>
-        </div>
-    </nav>
 </head>
 
 <body style="background-color: black">
+    <nav class="navbar navbar-dark bg-black">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <img src="img/pngtree-clink-glasses-to-celebrate-beer-toasts-png-image_5768200.png.jpeg" alt="Logo"
+                    width="30" height="24" class="d-inline-block align-text-top">
+                <font style="font-size:30px;" color="darkyellow">Alcoholism</font>
+            </a>
+            <a class="nav-link" href="/home2">
+                <font color="darkyellow">Home</font>
+            </a>
+
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Authentication Links -->
+
+                @guest
+
+                    @if (Route::has('login'))
+
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
+        </div>
+    </nav>
     <div>
         <h1>
             <center>
@@ -46,35 +87,90 @@
             <div class="col-sm-6 mb-3 mb-sm-0">
                 <div class="card">
                     <div class="card-header">
-                        กางจอง
+                        การจอง
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">ข้อมูลการจอง</h5>
 
                         <?php
                         $selectedTables = $_GET['selectedTables'] ?? '';
-                        if (!empty($selectedTables)) {
-                            echo "<p>Table Number : $selectedTables</p>";
-                        }
                         ?>
-                        <p id="currentDateTime"></p>
 
-                        <script>
-                            // สร้างฟังก์ชันเพื่ออัปเดตวันที่และเวลาทุกๆ 1 วินาที
-                            function updateDateTime() {
-                                var currentDate = new Date();
-                                var dateString = currentDate.toLocaleDateString();
-                                var dateTimeString = "Date : " + dateString;
-                                document.getElementById("currentDateTime").textContent = dateTimeString;
-                            }
-                            updateDateTime();
-                        </script>
-
-                        <form action="{{ route('table.store') }}" method="POST">
+                        {{-- <form action="{{ route('booking.store') }}" method="POST">
                             @csrf
-                            Name : <input type="text" name="name"><br><br>
-                            <button type="submit" class="btn btn-warning">Let's Go</button><br>
+                            Table Name: <input type="text" id='table_number' name="table_number" value="{{ $selectedTables }}" readonly><br><br>
+                            Name: <input type="text" id="name" name="name"><br><br>
+                            จำนวนคน: <input type="text" id="count" name="count"><br><br>
+                            Tel: <input type="text" id="phone" name="phone"><br><br>
+                            <p id="currentDateTime"></p>
+                            <br><br>
+                            <dt>กรุณาจ่ายเงินตามจำนวนโต๊ะที่ท่านได้จองไป
+                                <dd>1 โต๊ะ 300 บาท <br>
+                                    2 โต๊ะ 600 บาท <br>
+                                    3 โต๊ะ 900 บาท</dd>
+                            </dt>
+                            <h6>ร้านนี้ยินดีต้อนรับปัญญาชนและบุคคลที่มีจรรญาบรร 🙏🙏🙏</h6>
+                        <img src="{{ asset('img/IMG_3733.PNG') }}" width="400" height="500"> <br><br>
+
+                            {{-- <button type="submit" class="btn btn-warning">Let's Go</button><br> --}}
+                            {{-- <button type="submit" class="btn btn-warning" onclick="showBookingCompleteAlert()">Let's Go</button><br>
+
+
                         </form>
+                        <script>
+                            function showBookingCompleteAlert() {
+                                alert("การจองสำเร็จ ขอบคุณที่ใช้บริการ");
+                            }
+                        </script> --}}
+                        @if (Auth::check())
+                        <form action="{{ route('booking.store') }}" method="POST">
+                            @csrf
+                            Table Name: <input type="text" id='table_number' name="table_number" value="{{ $selectedTables }}" readonly><br><br>
+                            {{-- Name: <input type="text" id="name" name="name"><br><br> --}}
+                            Name : <input type="text" name="user_email" value="{{ Auth::user()->email }}" readonly><br><br>
+
+                            Date : <input type="date"><br><br>
+                            จำนวนคน: <input type="text" id="count" name="count"><br><br>
+                            Tel: <input type="text" id="phone" name="phone"><br><br>
+                            <p id="currentDateTime"></p>
+                            <br><br>
+
+                            <input type="hidden" id="totalCost" name="totalCost" value="0">
+
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>จำนวนเงินที่ต้องชำระ: <span id="totalCostSpan">0</span> บาท</p>
+                                    <img src="{{ asset('img/IMG_3733.PNG') }}" width="400" height="500"> <br><br>
+                                </div>
+
+                            </div><br>
+                            <button type="submit" class="btn btn-warning" onclick="showBookingCompleteAlert()">Let's Go</button><br>
+
+
+                        </form>
+                        @endif
+                        <script>
+                            function showBookingCompleteAlert() {
+                                alert("การจองสำเร็จ ขอบคุณที่ใช้บริการ");
+                            }
+                        </script>
+                        </form>
+
+                    </div>
+                </div>
+                <script>
+                    function calculateTotalCost() {
+                        const selectedTables = document.getElementById("table_number").value.split(",");
+                        const numTables = selectedTables.length;
+                        let totalCost = numTables * 300; // Assuming 1 table costs 300 baht
+
+                        document.getElementById("totalCost").value = totalCost;
+
+                        document.getElementById("totalCostSpan").textContent = totalCost;
+                    }
+                    window.addEventListener("load", calculateTotalCost);
+                </script>
 
                     </div>
                 </div>
@@ -88,11 +184,8 @@
         <h5 class="card-header text-warning">About us</h5>
         <div class="card-body">
             <h5 class="card-title text-warning">
-                เว็บสำหรับการจองโต๊ะเหมาะสำหรับบุคคลที่ต้องการให้แอลกอฮอล์ไหลเข้าสู่ร่างกาย </h5>
-            <p class="card-title text-warning">กะจะกินเหล้าให้ลืมเธอ แต่ดันลืมทุกอย่างยกเว้นเธอ <br>
-                ชีวิตเราเกิดมาเพื่อเบียร์ ไม่ใช่เพื่อเธอ <br>
-                อกหักไม่ตาย โปรเจคไม่เสร็จต่างหากถึงตาย
-
+                เว็บจองโต๊ะสำหรับบุคคลที่ต้องการให้แอลกอฮอล์ไหลเข้าสู่ร่างกาย </h5>
+            <p class="card-title text-warning">Website for booking tables for individuals who want alcohol to flow into their bodies.
             </p>
         </div>
     </div>

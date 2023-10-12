@@ -31,12 +31,53 @@ if (isset($_SESSION['bookingData'])) {
     <nav class="navbar navbar-dark bg-black">
         <div class="container-fluid">
             <a class="navbar-brand">
-                <a class="nav-link" href="/home2">
-                    <font style="font-size:22px;" color="darkyellow">Home</font>
-                    <img src="img/pngtree-clink-glasses-to-celebrate-beer-toasts-png-image_5768200.png.jpeg"
-                        alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                </a>
+                <img src="img/pngtree-clink-glasses-to-celebrate-beer-toasts-png-image_5768200.png.jpeg" alt="Logo"
+                    width="30" height="24" class="d-inline-block align-text-top">
+                <font style="font-size:30px;" color="darkyellow">Alcoholism</font>
             </a>
+            <a class="nav-link" href="/home2">
+                <font color="darkyellow">Home</font>
+            </a>
+
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Authentication Links -->
+
+                @guest
+
+                    @if (Route::has('login'))
+
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
         </div>
     </nav>
     <div>
